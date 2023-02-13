@@ -6,16 +6,14 @@ import routes from "./routes";
 import connect from "./utils/connect";
 import logger from "./utils/logger";
 import deserializeUser from "./middleware/deserializeUser";
+import createServer from "./utils/server";
+import config from "config";
 
-const app: Express = express();
-const port = 3000;
-//body parser
-app.use(express.json());
-app.use(deserializeUser);
+const port = config.get<number>("port");
+
+const app = createServer();
 
 app.listen(port, async () => {
   logger.info(`listen http://localhost:3000/ ons port ${port}`);
   await connect();
-
-  routes(app);
 });
